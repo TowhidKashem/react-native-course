@@ -2434,6 +2434,11 @@ expo-permissions@~9.0.1:
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-9.0.1.tgz#dc10b58654bbe39bbbed5827369942b01b08055e"
   integrity sha512-CosJgy8XQRN/OFG2JTQDcFxz3XTGi27coCMym/hVXWtQfk0z6PwdRG5IXHfLGuSckwIcgmirrwm2+Zc0X3MmNg==
 
+expo-sms@~8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/expo-sms/-/expo-sms-8.2.1.tgz#5ffe9de6f2c886b48b89f6084d98e72e3a6aecd9"
+  integrity sha512-D+FFxkhWpBp6fAZJNPrHZqSu/3HHgA5kO6mWyE7PAC5D+5jP63dQkO/WVbh2CbMoKoSjOM+/RsgggYTTieXCQg==
+
 expo-splash-screen@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.5.0.tgz#cad0eb77a3eade2c7101d169b8655e7ee8053c2f"

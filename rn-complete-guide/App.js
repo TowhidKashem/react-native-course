@@ -8,10 +8,12 @@ import {
   Modal,
   Text,
   Image,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as Font from "expo-font";
+import { Ionicons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { AppLoading } from "expo";
+import * as SMS from "expo-sms";
 import GoalItem from "./components/GoalItem";
 import Goalnput from "./components/Goalnput";
 import Header from "./components/Header";
@@ -26,6 +28,23 @@ export default function App() {
   const [num, setNum] = useState(0);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  // (async function () {
+  //   const isAvailable = await SMS.isAvailableAsync();
+  //   if (isAvailable) {
+  //     const { result } = await SMS.sendSMSAsync(
+  //       ["9172425569"],
+  //       "My sample HelloWorld message",
+  //       {
+  //         uri: "path/myfile.png",
+  //         mimeType: "image/png",
+  //         filename: "myfile.png",
+  //       }
+  //     );
+  //   } else {
+  //     console.log("no SMS");
+  //   }
+  // })();
+
   if (!dataLoaded)
     return (
       <AppLoading
@@ -39,43 +58,47 @@ export default function App() {
 
   return (
     <>
-      <View styles={styles.screen}>
-        <Header title="Guess a number" />
-      </View>
-      <Image
-        source={require("./assets/success.png")}
-        style={{
-          width: 300,
-          height: 300,
-          marginTop: 20,
-          borderRadius: 150,
-        }}
-        resizeMode="contain"
-      />
-      <Text numberOfLines={1} ellipsizeMode="tail">
-        This text will never wrap into a new line, instead it will be cut off
-        like this if it is too lon...
-      </Text>
-      <Image
-        source={{
-          uri:
-            "https://static.toiimg.com/thumb/msid-67586673,width-800,height-600,resizemode-75,imgsize-3918697,pt-32,y_pad-40/67586673.jpg",
-          width: 300,
-          height: 300,
-        }}
-      />
-      <TouchableHighlight onPress={() => setNum(num + 1)}>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "black",
-            height: "100%",
-            padding: 100,
-          }}
-        >
-          <Text>{num}</Text>
+      <ScrollView>
+        <View styles={styles.screen}>
+          <Header title="Guess a number" />
         </View>
-      </TouchableHighlight>
+        <Ionicons name="md-remove" size={54} color="red" />
+        <FontAwesome name="snapchat" size={54} color="red" />
+        <Image
+          source={require("./assets/success.png")}
+          style={{
+            width: 300,
+            height: 300,
+            marginTop: 20,
+            borderRadius: 150,
+          }}
+          resizeMode="contain"
+        />
+        <Text numberOfLines={1} ellipsizeMode="tail">
+          This text will never wrap into a new line, instead it will be cut off
+          like this if it is too lon...
+        </Text>
+        <Image
+          source={{
+            uri:
+              "https://static.toiimg.com/thumb/msid-67586673,width-800,height-600,resizemode-75,imgsize-3918697,pt-32,y_pad-40/67586673.jpg",
+            width: 300,
+            height: 300,
+          }}
+        />
+        <TouchableWithoutFeedback onPress={() => setNum(num + 1)}>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "black",
+              height: "100%",
+              padding: 100,
+            }}
+          >
+            <Text>{num}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     </>
   );
 }
