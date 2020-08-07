@@ -1,0 +1,203 @@
+React Native:
+
+<View> = div
+<Text> = all text must be wrapped in it
+
+———
+
+Flexbox in RN by default positions items under each other not next to like the web, every item is implemented in flex box by default so no display flex needed
+
+defaults:
+
+display flex;
+flexDirection: column;
+
+You should use StyleSheet.create({}) instead of a plain {} in case the RN team offers performance optimizations for the wrapper in the future, but as of right now there is no difference, it also throws validation errors
+ 
+———
+
+Show the splash screen a little bit longer until some async function resolves (e.g. loading fonts):
+
+	 import { AppLoading } from "expo";
+
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  if (!dataLoaded)
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => {
+          setDataLoaded(true);
+        }}
+        onError={(error) => console.log(error)}
+      />
+    );
+
+———
+
+2 ways to manage style re-use:
+
+Wrap it in a component:
+
+const HeaderText = ({.children }) => <Text styles={styles.myHeader}>{children}</Text> 
+
+const styles = StyleSheet.create({
+  myHeader: {
+    fontFamily: ‘open-sans’,
+    width: "100%",
+    height: 200,
+    flex: 1,
+  },
+  foo: {
+		// bar…
+	 }
+});
+
+Or export global styles:
+
+	import defaultStyles from ‘styles/headerStyles’
+
+	<Text styles={defaultStyles.myHeader}>Hey</Text>
+
+export default StyleSheet.create({
+  myHeader: {
+    fontFamily: ‘open-sans’,
+    width: "100%",
+    height: 200,
+    flex: 1,
+  },
+  foo: {
+		// bar…
+	 }
+});
+
+
+<Text> is the ONLY component that passes it’s styles down to nested text components!
+
+—
+
+When using the Dimensions component, the difference between window and screen is that on Android the screen subtracts from the status bar height, on IOS it doesn’t matter
+   - usually you always want to use window
+
+You can set up a listener on dimension change and update a state value on each change, that way when using dimension based values they update when the user changes the phone orientation:
+
+	Dimensions.addEventListener(‘change’, () => { //etc.. });
+
+—
+
+The ScreenOrientation import from ‘expo’ lets you do more like locking a screen in a particular orientation for example
+
+	ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+
+—-
+
+In app.json setting the value for the “orientation” key changes whether the app can be rotated or not, default allows both portrait and landscape
+
+—-
+
+Wrap your code in this to make sure the keyboard never overlays an input field:
+
+	<KeyboardAvoidingView />
+
+On IOS behavior=“position” works best and on android behavior=“padding”
+
+Similarly there is a <SafeAreaView />, wrapping your content in this ensures notches on a phone and such don’t overlay the content. This component should be placed at the utmost base of the app.
+
+——
+
+> Platform.OS lets you access what OS the app is running on
+
+> Platform.Version gives access to version
+
+You can merge in different objects based on the OS like so:
+
+     {
+     …styles.headerBase,
+…Platform.select({
+    ios:  styles.headerIOS,
+    android: styles.headerAndroid
+});
+}
+
+——
+
+If you name a file
+
+<filename>.ios.js
+<filename>.android.js	
+
+When importing don’t use the .platform part, just import as usual:
+
+	import Button from ‘Button’;
+
+React native will load the relevant file per OS
+
+If a file has too many if checks for platform it’s better just to load different files for different OS’s
+
+——
+
+Navigate to a new screen using react navigation package:
+
+	props.navigation.navigate(‘MyComponent’);
+
+To load the same screen over itself (e.g. dropbox folder screen but with different data) use push:
+
+	props.navigation.push(‘MyComponent’);
+
+But usually this isn’t needed in most apps
+
+Programmatically go back:
+
+	props.navigation.goBack();
+
+Go back to the utmost first screen:
+
+	props.navigation.popToTop();
+
+Get a parameter:
+
+	navigationData.navigation.getParam(‘mealId’);
+
+——
+
+For performance increase use enableScreens from ‘react-native-screens’;
+
+——
+
+Background images:
+
+<ImageBackground src={…}>
+	 <Text>Foreground Text</Text>
+</ImageBackground>
+
+——
+
+This package makes building cross platform headers easier:
+
+	yarn add react-navigation-header-buttons
+
+——
+
+The 3 types of phone navigation:
+
+* Drawer
+* Stack
+* Tab
+
+
+——
+
+Debugging Redux in React Native Apps
+
+You can debug Redux in React Native apps with help of the React Native Debugger tool: https://github.com/jhen0409/react-native-debugger/blob/master/docs/redux-devtools-integration.md
+
+1) Make sure you got the React Native Debugger installed (https://github.com/jhen0409/react-native-debugger)
+2) Enable JS Debugging in the running app (open development overlay via CTRL + M / CMD + M on Android devices, CMD + D on iOS devices)
+3) Install the redux-devtools-extension package via npm install --save-dev redux-devtools-extension (https://www.npmjs.com/package/redux-devtools-extension)
+4) Enable Redux debugging in your code:
+* import { createStore, applyMiddleware } from 'redux';
+* import { composeWithDevTools } from 'redux-devtools-extension';
+* const store = createStore(reducer, composeWithDevTools());
+
+Important: Make sure you remove this code when building your app for production!
+
