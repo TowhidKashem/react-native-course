@@ -220,4 +220,19 @@ Important: Make sure you remove this code when building your app for production
   function and take the user to the login screen put this logic at a base template level so that it happens no 
   matter which route the user is in
 
+* SQLlite queries need to be run inside transaction functions, this ensures that if any part of the query fails they all fail (to prevent corupted data)
+
+* in a SQLlite function, the arguments are:
+
+    1. the query
+    2. an array of dynamic values that can be plugged into the query (in the query use `?` and they will be filled in the same order as values 
+       that appear in the array. This also has the added benefit of sanitizing input to prevent sql injections)
+    3. success callback
+    4. error callback
+
+* wrap a SQLlite function into a promise and in the success callback resolve it and in the error callback reject it, that way you can attach then() and catch()
+handlerss in the place where you invoke it and it's cleaner to handle it this way
+
+
+
 
