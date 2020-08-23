@@ -201,3 +201,23 @@ You can debug Redux in React Native apps with help of the React Native Debugger 
 
 Important: Make sure you remove this code when building your app for production!
 
+------------------------------
+
+* useReducer hook over useState if there are many values to manage (e.g. form state)
+
+* <Flatlist /> has props for easily implementing "Pull to refresh" functionality
+
+* use createSwitchNavigator() for auth screens, it supresses back button action (v4 not v5!)
+
+* you can dispatch a redux action outside of the provider tags by using refs:
+
+    navRef.current.dispatch(foo());
+
+    <ShopNavigator ref={navRef} />
+
+* if you need to log a user out automatically after a session token expires (via setTimeout) you can listen 
+  to the state change e.g. when the redux session value changes to null (after being cleared) fire the navigate 
+  function and take the user to the login screen put this logic at a base template level so that it happens no 
+  matter which route the user is in
+
+
