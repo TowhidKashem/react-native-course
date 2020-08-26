@@ -231,8 +231,5 @@ Important: Make sure you remove this code when building your app for production
     4. error callback
 
 * wrap a SQLlite function into a promise and in the success callback resolve it and in the error callback reject it, that way you can attach then() and catch()
-handlerss in the place where you invoke it and it's cleaner to handle it this way
-
-
-
+  handlers in the place where you invoke it and it's cleaner to handle it this way
 
